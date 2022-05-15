@@ -3,13 +3,14 @@ import Head from "next/head";
 import { NumberInput, Text, Input, Button } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 
-type MealList = {
+type MealItem = {
   title: string;
   pfcList: {
     title: string;
     grams: number;
   }[];
-}[];
+};
+type MealList = MealItem[];
 
 const inputList = ["タンパク質", "脂質", "炭水化物（糖質）"];
 
@@ -74,7 +75,7 @@ const Home: NextPage = () => {
 
   const onClickRemoveItem = (index: number) => {
     const removeArray = JSON.parse(localStorage.getItem(KEY)!).filter(
-      (item, i: number) => i !== index
+      (_item: MealItem, i: number) => i !== index
     );
     localStorage.setItem(KEY, JSON.stringify(removeArray));
 
@@ -112,7 +113,12 @@ const Home: NextPage = () => {
                         (pfcItem) => pfcItem.title === inputItem
                       )
                     )
-                    .reduce((prev, current) => prev + current?.grams, 0)}
+                    .reduce((prev, current) => {
+                      if (current?.grams) {
+                        return prev + current?.grams;
+                      }
+                      return prev;
+                    }, 0)}
                 g
               </Text>
             </React.Fragment>
