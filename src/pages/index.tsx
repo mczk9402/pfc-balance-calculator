@@ -105,6 +105,10 @@ const Home: NextPage = () => {
     }
   };
 
+  const round = (number: number) => {
+    return Math.round(number * 10) / 10;
+  };
+
   return (
     <div className="grid h-full grid-rows-[max-content_1fr_max-content]">
       <Head>
@@ -130,9 +134,9 @@ const Home: NextPage = () => {
                     )
                     .reduce((prev, current) => {
                       if (current?.grams) {
-                        return prev + current?.grams;
+                        return round(prev + current.grams);
                       }
-                      return prev;
+                      return round(prev);
                     }, 0)}
                 g
               </Text>
@@ -161,7 +165,7 @@ const Home: NextPage = () => {
                     }, 0)
                 )
                 .reduce((prev, current) => {
-                  return prev + current;
+                  return Math.round(prev + current * 10) / 10;
                 }, 0)}
             kcal
           </Text>
@@ -203,7 +207,7 @@ const Home: NextPage = () => {
                   <React.Fragment key={i}>
                     <Text size="sm"> {pfcItem.title}</Text>
                     <Text className="text-right" size="sm">
-                      {pfcItem.grams} g
+                      {round(pfcItem.grams)} g
                     </Text>
                   </React.Fragment>
                 ))}
@@ -223,7 +227,7 @@ const Home: NextPage = () => {
                       }
                     })
                     .reduce((prev, current) => {
-                      return prev + current;
+                      return round(prev + current);
                     }, 0)}
                   kcal
                 </Text>
@@ -247,48 +251,45 @@ const Home: NextPage = () => {
             />
 
             <Text size="xs">タンパク質</Text>
-            <NumberInput
-              value={inputMeal.protain}
-              onChange={(e: number) =>
+            <Input
+              value={inputMeal.protain === 0 ? undefined : inputMeal.protain}
+              type="number"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
                     ...prev,
-                    protain: Number(e),
+                    protain: e.target.valueAsNumber,
                   };
                 })
               }
-              hideControls
-              precision={2}
             />
 
             <Text size="xs">脂質</Text>
-            <NumberInput
-              value={inputMeal.fat}
-              onChange={(e: number) =>
+            <Input
+              value={inputMeal.fat === 0 ? undefined : inputMeal.fat}
+              type="number"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
                     ...prev,
-                    fat: Number(e),
+                    fat: e.target.valueAsNumber,
                   };
                 })
               }
-              hideControls
-              precision={2}
             />
 
             <Text size="xs">炭水化物（糖質）</Text>
-            <NumberInput
-              value={inputMeal.carbo}
-              onChange={(e: number) =>
+            <Input
+              value={inputMeal.carbo === 0 ? undefined : inputMeal.carbo}
+              type="number"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
                     ...prev,
-                    carbo: Number(e),
+                    carbo: e.target.valueAsNumber,
                   };
                 })
               }
-              hideControls
-              precision={2}
             />
 
             <Button
