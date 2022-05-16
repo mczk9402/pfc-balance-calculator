@@ -246,7 +246,7 @@ const Home: NextPage = () => {
                   };
                 })
               }
-              placeholder="品名"
+              placeholder="食品名"
               className="col-span-2"
             />
 
@@ -254,6 +254,7 @@ const Home: NextPage = () => {
             <Input
               value={inputMeal.protain === 0 ? undefined : inputMeal.protain}
               type="number"
+              placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
@@ -268,6 +269,7 @@ const Home: NextPage = () => {
             <Input
               value={inputMeal.fat === 0 ? undefined : inputMeal.fat}
               type="number"
+              placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
@@ -282,6 +284,7 @@ const Home: NextPage = () => {
             <Input
               value={inputMeal.carbo === 0 ? undefined : inputMeal.carbo}
               type="number"
+              placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setInputMeal((prev) => {
                   return {
