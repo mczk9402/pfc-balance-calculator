@@ -90,6 +90,21 @@ const Home: NextPage = () => {
     setMealList(undefined);
   };
 
+  const onClickCloneItem = (i: number) => {
+    const prevArray = localStorage.getItem(KEY);
+    let prev: MealList = [];
+    if (prevArray !== null) {
+      prev = [...JSON.parse(prevArray)];
+    }
+
+    localStorage.setItem(KEY, JSON.stringify([...prev, prev[i]]));
+
+    const currentArray = localStorage.getItem(KEY);
+    if (currentArray) {
+      setMealList(JSON.parse(currentArray));
+    }
+  };
+
   return (
     <div className="grid h-full grid-rows-[max-content_1fr_max-content]">
       <Head>
@@ -164,14 +179,24 @@ const Home: NextPage = () => {
                 <Text size="md" weight={700}>
                   {mealItem.title}
                 </Text>
-                <Button
-                  variant="outline"
-                  color="red"
-                  compact
-                  onClick={() => onClickRemoveItem(i)}
-                >
-                  削除
-                </Button>
+                <div className="grid grid-flow-col gap-2">
+                  <Button
+                    variant="outline"
+                    color="red"
+                    compact
+                    onClick={() => onClickRemoveItem(i)}
+                  >
+                    削除
+                  </Button>
+                  <Button
+                    variant="gradient"
+                    gradient={{ from: "indigo", to: "cyan" }}
+                    compact
+                    onClick={() => onClickCloneItem(i)}
+                  >
+                    複製
+                  </Button>
+                </div>
               </div>
               <div className="grid grid-cols-[1fr_max-content]">
                 {mealItem.pfcList.map((pfcItem, i) => (
@@ -205,81 +230,84 @@ const Home: NextPage = () => {
               </div>
             </li>
           ))}
+        <li className="grid border-t border-gray-300 py-4 first:border-none">
+          <div className="grid grid-cols-[max-content_1fr] items-center justify-start gap-2">
+            <Input
+              value={inputMeal?.name}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInputMeal((prev) => {
+                  return {
+                    ...prev,
+                    name: e.target.value,
+                  };
+                })
+              }
+              placeholder="品名"
+              className="col-span-2"
+            />
+
+            <Text size="xs">タンパク質</Text>
+            <NumberInput
+              value={inputMeal.protain}
+              onChange={(e: number) =>
+                setInputMeal((prev) => {
+                  return {
+                    ...prev,
+                    protain: Number(e),
+                  };
+                })
+              }
+              hideControls
+              precision={2}
+            />
+
+            <Text size="xs">脂質</Text>
+            <NumberInput
+              value={inputMeal.fat}
+              onChange={(e: number) =>
+                setInputMeal((prev) => {
+                  return {
+                    ...prev,
+                    fat: Number(e),
+                  };
+                })
+              }
+              hideControls
+              precision={2}
+            />
+
+            <Text size="xs">炭水化物（糖質）</Text>
+            <NumberInput
+              value={inputMeal.carbo}
+              onChange={(e: number) =>
+                setInputMeal((prev) => {
+                  return {
+                    ...prev,
+                    carbo: Number(e),
+                  };
+                })
+              }
+              hideControls
+              precision={2}
+            />
+
+            <Button
+              variant="outline"
+              color="red"
+              onClick={onClickRemoveAllItem}
+            >
+              すべて削除
+            </Button>
+            <Button
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan" }}
+              onClick={onClickAddItem}
+            >
+              追加
+            </Button>
+          </div>
+        </li>
       </ul>
-
-      <footer className="grid gap-2 bg-gray-100 p-4">
-        <div className="grid grid-cols-[max-content_1fr] items-center justify-start gap-2">
-          <Input
-            value={inputMeal?.name}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setInputMeal((prev) => {
-                return {
-                  ...prev,
-                  name: e.target.value,
-                };
-              })
-            }
-            placeholder="品名"
-            className="col-span-2"
-          />
-
-          <Text size="xs">タンパク質</Text>
-          <NumberInput
-            value={inputMeal.protain}
-            onChange={(e: number) =>
-              setInputMeal((prev) => {
-                return {
-                  ...prev,
-                  protain: Number(e),
-                };
-              })
-            }
-            hideControls
-            precision={2}
-          />
-
-          <Text size="xs">脂質</Text>
-          <NumberInput
-            value={inputMeal.fat}
-            onChange={(e: number) =>
-              setInputMeal((prev) => {
-                return {
-                  ...prev,
-                  fat: Number(e),
-                };
-              })
-            }
-            hideControls
-            precision={2}
-          />
-
-          <Text size="xs">炭水化物（糖質）</Text>
-          <NumberInput
-            value={inputMeal.carbo}
-            onChange={(e: number) =>
-              setInputMeal((prev) => {
-                return {
-                  ...prev,
-                  carbo: Number(e),
-                };
-              })
-            }
-            hideControls
-            precision={2}
-          />
-
-          <Button variant="outline" color="red" onClick={onClickRemoveAllItem}>
-            すべて削除
-          </Button>
-          <Button
-            variant="gradient"
-            gradient={{ from: "indigo", to: "cyan" }}
-            onClick={onClickAddItem}
-          >
-            追加
-          </Button>
-        </div>
-      </footer>
     </div>
   );
 };
