@@ -165,7 +165,7 @@ const Home: NextPage = () => {
                     }, 0)
                 )
                 .reduce((prev, current) => {
-                  return Math.round(prev + current * 10) / 10;
+                  return round(prev + current);
                 }, 0)}
             kcal
           </Text>
@@ -252,7 +252,7 @@ const Home: NextPage = () => {
 
             <Text size="xs">タンパク質</Text>
             <Input
-              value={inputMeal.protain === 0 ? undefined : inputMeal.protain}
+              value={inputMeal.protain === 0 ? "" : inputMeal.protain}
               type="number"
               placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -267,7 +267,7 @@ const Home: NextPage = () => {
 
             <Text size="xs">脂質</Text>
             <Input
-              value={inputMeal.fat === 0 ? undefined : inputMeal.fat}
+              value={inputMeal.fat === 0 ? "" : inputMeal.fat}
               type="number"
               placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -282,7 +282,7 @@ const Home: NextPage = () => {
 
             <Text size="xs">炭水化物（糖質）</Text>
             <Input
-              value={inputMeal.carbo === 0 ? undefined : inputMeal.carbo}
+              value={inputMeal.carbo === 0 ? "" : inputMeal.carbo}
               type="number"
               placeholder="グラム数(g)"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
